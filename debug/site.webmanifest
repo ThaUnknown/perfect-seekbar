@@ -1,0 +1,20 @@
+{
+  "name": "perfect-seekbar",
+  "short_name": "perfect-seekbar",
+  "start_url": ".",
+  "display": "fullscreen",
+  "display_override": ["window-controls-overlay"],
+  "lang": "en-US",
+  "orientation": "landscape",
+  "background_color": "#191c20",
+  "theme_color": "#000",
+  "scope": "./",
+  "description": "",
+  "icons": [
+    {
+      "src": "./svelte.svg",
+      "sizes": "320x320",
+      "type": "image/svg+xml"
+    }
+  ]
+}

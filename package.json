@@ -1,0 +1,46 @@
+{
+  "name": "perfect-seekbar",
+  "version": "1.0.0",
+  "description": "The ultimate seek/progress bar. Pixel perfect, smooth and reactive. Supports chapters, thumbnails, buffering and hovering. Lightweight, fast. Made with Svelte.",
+  "files": [
+    "dist/*",
+    "src/*",
+    "docs/"
+  ],
+  "main": "src/perfect-seekbar.svelte",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "progress",
+    "progress bar",
+    "seek",
+    "seek bar",
+    "perfect seekbar",
+    "youtube bar",
+    "youtube progress",
+    "youtube progress bar",
+    "chapters progress bar",
+    "thumbnails",
+    "thumbnails progress bar",
+    "svelte",
+    "web-component"
+  ],
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "svelte": "^3.58.0",
+    "vite": "^3.0.2"
+  },
+  "license": "MIT",
+  "author": "ThaUnknown",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThaUnknown/perfect-seekbar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ThaUnknown/perfect-seekbar/issues"
+  },
+  "homepage": "https://github.com/ThaUnknown/perfect-seekbar#readme"
+}
