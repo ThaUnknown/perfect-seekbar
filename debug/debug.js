@@ -52,27 +52,27 @@ new App({
     length: 2400.235,
     chapters: [
       {
-        title: 'Recap',
+        text: 'Recap',
         size: 10
       },
       {
-        title: 'Opening',
+        text: 'Opening',
         size: 15
       },
       {
-        title: 'Part A',
+        text: 'Part A',
         size: 25
       },
       {
-        title: 'Part B',
+        text: 'Part B',
         size: 25
       },
       {
-        title: 'Ending',
+        text: 'Ending',
         size: 15
       },
       {
-        title: 'Preview',
+        text: 'Preview',
         size: 10
       }
     ]

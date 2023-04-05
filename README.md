@@ -14,10 +14,10 @@ let progress = 10
 const duration = 450
 let seek = 0
 const chapters = [
-  { size: 20, title: 'Recap' },
-  { size: 15, title: 'Opening' },
-  { size: 50, title: 'Episode' },
-  { size: 15, title: 'Ending' },
+  { size: 20, text: 'Recap' },
+  { size: 15, text: 'Opening' },
+  { size: 50, text: 'Episode' },
+  { size: 15, text: 'Ending' },
 ]
 async function thumbnailGenerator (percent) {
   return thumbnails[Math.floor(percent)]
@@ -42,7 +42,7 @@ All values are bindable and reactive, and can be updated at any point.
 - `buffer` - Number - percent buffered ex: `56.4664`
 - `seek` - Number - percent seeking when the user is hovering or dragging the bar ex: `56.4664`
 - `length` - Number - progress duration in seconds, set to falsy if you want to hide the timestamp ex: `153.4265`
-- `chapters` - Array\<Object\> - array of chapter objects with a percentage size and optional title ex: `[{ size: 20 }, { size: 80, title: 'Main' }]`
+- `chapters` - Array\<Object\> - array of chapter objects with a percentage size and optional text ex: `[{ size: 20 }, { size: 80, text: 'Main' }]`
 - `getThumbnail` - async function - getter for a thumbnail for a given percentage progress
 - `on:seeking` - event emitted when the user is dragging the bar, you can just bind the progress variable if you use svelte
 - `on:seeked` - event emitted when the user finishes dragging the bar
@@ -55,7 +55,7 @@ Or use as a web component outside Svelte:
 </body>
 <script>
   const seekbar = document.querySelector('perfect-seekbar')
-  video.addEventListener('timeupdate', () => { seekbar.progress = video.currentTime / video.duration })
-  seekbar.addEventListener('seeking' ({ detail }) => { video.currentTime = detail * video.duration })
+  video.addEventListener('timeupdate', () => { seekbar.progress = video.currentTime / video.duration * 100 })
+  seekbar.addEventListener('seeking' ({ detail }) => { video.currentTime = detail * video.duration / 100 })
 </script>
 ```

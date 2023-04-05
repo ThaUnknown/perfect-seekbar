@@ -24,7 +24,7 @@
   let seeking = false
 
   function calculatePositionProgress ({ pageX, currentTarget }) {
-    const percent = clamp((pageX - currentTarget.offsetLeft) / currentTarget.clientWidth * 100)
+    const percent = clamp((pageX - currentTarget.getBoundingClientRect().left) / currentTarget.clientWidth * 100)
     if (seeking) {
       dispatch('seeking', percent)
       progress = percent
@@ -52,10 +52,10 @@
 
   $: sum = chapters && 0
   $: processedChapters = chapters
-    .map(({ size, title }) => {
+    .map(({ size, text }) => {
       const cloned = { // don't mutate the original chapters, bad idea if it's references to binary stuff like EBML
         size,
-        title,
+        text,
         offset: sum,
         scale: (100 / size)
       }
@@ -76,8 +76,8 @@
     }
   }
   function getCurrentChapterTitle (seek) {
-    for (const { offset, size, title } of processedChapters) {
-      if (offset + size > seek) return offset + size > seek && offset <= seek && (title || '')
+    for (const { offset, size, text } of processedChapters) {
+      if (offset + size > seek) return offset + size > seek && offset <= seek && (text || '')
     }
   }
   let thumbnail = ''
@@ -97,7 +97,7 @@
 <!-- eslint-disable-next-line svelte/valid-compile -->
 <svelte:options tag='perfect-seekbar' />
 
-<div class='seekbar'
+<div class='seekbar w-full {$$restProps.class}'
   bind:this={seekbar}
   on:pointerdown={startSeeking}
   on:pointerup={endSeeking}
@@ -130,8 +130,8 @@
   </div>
   <div class='center hover-container' style:--progress={seek + '%'} style:--padding={getThumbnail ? '75px' : '15px'}>
     <div class='center'>
-      <img alt='thumbnail' class='thumbnail' src={thumbnail} />
       <div>{getCurrentChapterTitle(seek) || ''}</div>
+      <img alt='thumbnail' class='thumbnail' src={thumbnail} />
       {#if length}
         <div>{toTS(length * (seek / 100))}</div>
       {/if}
@@ -156,6 +156,10 @@
     user-select: none;
     touch-action: none;
     position: relative;
+    font-family: Roboto,Bahnschrift,Arial,Helvetica,sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #eee;
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: #0000;
   }
@@ -170,10 +174,6 @@
     left: clamp(var(--padding), var(--progress), 100% - var(--padding)) !important;
     display: none;
     pointer-events: none;
-    font-family: Roboto,Bahnschrift,Arial,Helvetica,sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    color: #eee;
     white-space: nowrap;
     text-shadow: 0 0 4px rgba(0,0,0,.75);
   }
@@ -188,10 +188,15 @@
     bottom: 13px;
     border: #eee 2px solid;
     border-radius: 2px;
-    margin-bottom: 5px;
   }
   .thumbnail[src='']{
     display: none;
+  }
+  .seekbar:active {
+    cursor: grabbing;
+  }
+  .seekbar:active .chapter div {
+    filter: brightness(80%);
   }
   .seekbar:hover .thumb, .seekbar:active .thumb {
     width: 13px;
@@ -200,10 +205,11 @@
   .seekbar:hover .thumb.active, .seekbar:active .thumb.active {
     width: 19px;
     height: 19px;
+    filter: brightness(120%);
   }
   .thumb-container {
     position: absolute;
-    bottom: 5px;
+    bottom: 4.5px;
   }
   .thumb {
     width: 0;
@@ -211,7 +217,7 @@
     background: var(--accent);
     position: absolute;
     border-radius: 50%;
-    transition: width .1s cubic-bezier(.4,0,1,1), height .1s cubic-bezier(.4,0,1,1);
+    transition: width .1s cubic-bezier(.4,0,1,1), height .1s cubic-bezier(.4,0,1,1), filter .1s cubic-bezier(.4,0,1,1);
   }
   .chapter-wrapper {
     display: flex;
@@ -235,7 +241,7 @@
   }
   .chapter div {
     height: 3px;
-    transition: height .1s cubic-bezier(.4,0,1,1);
+    transition: height .1s cubic-bezier(.4,0,1,1), filter .1s cubic-bezier(.4,0,1,1);
     position: absolute;
   }
   .base-bar {
@@ -245,6 +251,7 @@
     background-color: var(--accent);
   }
   .chapter.active div {
+    filter: brightness(120%);
     height: 9px !important;
   }
   .seekbar:hover .chapter div {
